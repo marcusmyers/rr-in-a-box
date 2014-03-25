@@ -1,0 +1,19 @@
+extends layout
+
+block content
+	div.container-fluid
+		div.row-fluid
+			div.span2
+				h3 Add Tickets
+				button.btn.13(onclick="addTicket(13)") 13
+				button.btn.299(onclick="addTicket(299)") 299
+				button.btn.300(onclick="addTicket(300)") 300
+			div.span10
+				div.totalTickets
+		div.row-fluid
+			div.span2
+				h3 Draw A Ticket
+				button.btn.btn-primary#pullNumber Pick a Ticket
+				ul.pickedNumbers
+			div.span10
+				button.btn.btn-primary.btn-large.btn-block.pickedNumber#pickedNumber

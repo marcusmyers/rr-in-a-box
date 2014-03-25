@@ -1,0 +1,38 @@
+body {
+  padding: 50px;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+}
+
+
+/* styles */
+		.pickedNumber {
+			height: 350px;
+			min-height: 350px;
+			max-height: 500px;
+			font-size: 200px;
+			font-weight: strong;
+		}
+
+		.pickedNumber p {
+			font-size: 80px;
+			padding-top: 100px;
+			font-weight: strong;
+
+		}
+
+		.pickedNumber p.small {
+			font-size: 30px;
+			padding-top: 60px;
+			font-weight: strong;
+
+		}
+
+		.container-fluid {
+			margin-top: 80px;
+		}
+
+		.row-fluid {
+			margin-top: 20px;
+		}
+		.totalTickets {
+			font-size: 50px;
