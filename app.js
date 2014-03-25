@@ -45,13 +45,16 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var io = require('socket.io').listen(server);
 var clients = {};
 
+// Create csv file to write to and set first line to Ticket Number
 fs.writeFile('pickedtickets.csv', 'Ticket Number\r\n', function (err) {
   if (err) return console.log(err);
   //console.log('Hello World > pickedtickets.csv');
 });
 
+// Write to csv file all the picked tickets
 var info = fs.createWriteStream('pickedtickets.csv', {'flags': 'a'});
 
+// Create Socket server connection
 io.sockets.on('connection', function (socket) {
   clients[socket.id] = socket;
 

@@ -36,3 +36,13 @@ body {
 		}
 		.totalTickets {
 			font-size: 50px;
+    }
+
+    .sponsor {
+      height: 200px;
+      min-height: 200px;
+      max-height: 350px;
+      font-size: 20px;
+      font-weight: strong;
+      display: none;
+    }

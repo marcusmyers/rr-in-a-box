@@ -4,7 +4,7 @@ $(document).ready(function(){
 	var totalTickets = 300;
 
 	socket.on('monitor', function(data){
-		
+
 		var testI = iCounter % 20;
 
 		var n = data.split(',');
@@ -21,13 +21,16 @@ $(document).ready(function(){
 				$('#pickedNumber').addClass('btn-danger');
 			}
 			$('#pickedNumber').html(intRand+"<br><p>"+ticketName+"</p><p class='small'>Prize Winner</p>");
+			$('#sponsor').show().html(n[2]);
 		} else {
 			if(iCounter == 296 || iCounter == 297 || iCounter==298 || iCounter==299){
 				$('#pickedNumber').removeClass('btn-primary');
 				$('#pickedNumber').addClass('btn-success');
+				$('#sponsor').show().html(n[2]);
 			} else {
 				$('#pickedNumber').removeClass('btn-danger')
 				$('#pickedNumber').addClass('btn-primary');
+				$('#sponsor').hide();
 			}
 			$('#pickedNumber').html(intRand+"<br><p>"+ticketName+"</p>");
 		}
