@@ -4,31 +4,44 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
   , board = require('./routes/board')
-  , monitor = require('./routes/monitor')
+  , bodyParser = require('body-parser')
+  , csv = require('fast-csv')
+  , errorHandler = require('errorhandler')
   , http = require('http')
-  , path = require('path');
+  , monitor = require('./routes/monitor')
+  , path = require('path')
+  , routes = require('./routes')
+  , sqlite3 = require('sqlite3')
+  , user = require('./routes/user');
 
 var app = express();
 var fs = require('fs');
-
+var rrdb = __dirname + '/db_storage/rr.db';
+var pickeddb = __dirname + '/db_storage/picked.db';
+var stream = fs.createReadStream("RR-2016.csv");
+ 
+csv
+ .fromStream(stream)
+   .on("data", function(data){
+          console.log(data);
+           })
+ .on("end", function(){
+        console.log("done");
+         });
 
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
+app.set('view engine', 'pug');
+app.use(bodyParser.urlencoded({extended: false}));
+//app.use(express.methodOverride());
+//app.use(app.Router());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+  app.use(errorHandler());
 }
 
 app.get('/', routes.index);

@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var socket = io.connect('http://localhost:3000');
 
+  totalTickets = localStorage.getItem('totalTickets');
   // Sets the total tickets left
 	$('.totalTickets').html("Tickets Left: "+totalTickets);
 

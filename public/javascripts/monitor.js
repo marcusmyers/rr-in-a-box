@@ -1,8 +1,9 @@
 $(document).ready(function(){
 	var socket = io.connect('http://localhost:3000');
 	var iCounter = 1;
-	var totalTickets = 300;
-
+  if(localStorage.getItem('totalTickets') === undefined){
+    localStorage.setItem('totalTickets', 300);
+  }
 	socket.on('monitor', function(data){
 
 		var testI = iCounter % 20;
@@ -34,8 +35,9 @@ $(document).ready(function(){
 			}
 			$('#pickedNumber').html(intRand+"<br><p>"+ticketName+"</p>");
 		}
-
-		totalTickets--;
+    c = localStorage.getItem('totalTickets');
+		totalTickets = c-1;
+    localStorage.setItem('totalTickets', totalTickets);
 		$('.totalTickets').html("Tickets Left: "+ totalTickets);
 		iCounter++;
 	});

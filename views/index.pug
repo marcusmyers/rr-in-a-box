@@ -1,13 +1,13 @@
-extends layout
+extends layout.pug
 
 block content
 	div.container-fluid
 		div.row-fluid
 			div.span2
 				h3 Add Tickets
-				button.btn.13(onclick="addTicket(13)") 13
-				button.btn.299(onclick="addTicket(299)") 299
-				button.btn.300(onclick="addTicket(300)") 300
+				button(class=btn class=13 onclick="addTicket(13)") 13
+				button(class=btn class=109 onclick="addTicket(209)") 209
+				button(class=btn class=255 onclick="addTicket(255)") 255
 			div.span10
 				div.totalTickets
 		div.row-fluid
