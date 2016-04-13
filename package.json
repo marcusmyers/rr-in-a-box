@@ -6,8 +6,16 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "body-parser": "*",
+    "errorhandler": "^1.4.3",
     "express": "*",
+    "fast-csv": "*",
     "pug": "*",
-    "socket.io": "*"
+    "serve-favicon": "*",
+    "socket.io": "*",
+    "sqlite3": "*"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0"
   }
 }

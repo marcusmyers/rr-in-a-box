@@ -1,12 +1,12 @@
-var aboosterTicketsHold = new Array(13,298,299,300);
-var totalTickets = 300;
+var aboosterTicketsHold = new Array(13,109,255);
+localStorage.setItem('totalTickets', 300);
 for(i=1;i<=300;i++){
 	localStorage.setItem(i, i); //saves to the database, "key", "value"
 }
 
 localStorage.removeItem(13);
-localStorage.removeItem(299);
-localStorage.removeItem(300);
+localStorage.removeItem(109);
+localStorage.removeItem(255);
 var pickedTickets = new Array();
 var i = 1;
 var DB_NAME    = "rr_picked_Numbers";
