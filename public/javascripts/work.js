@@ -42,7 +42,7 @@ $(document).ready(function(){
         alert("PRIZE WINNER!!!");
 		  } else {
 			  if(i== 296 || i == 297 || i == 298 || i==299){
-				  sponsorInfo = sponsors[i];
+				  alert("PRIZE WINNER!!!");
 			  } else {
 				  sponsorInfo = "";
 				  $('#pickedNumber').removeClass('btn-danger')
