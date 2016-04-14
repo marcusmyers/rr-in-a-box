@@ -36,7 +36,6 @@ $(document).ready(function(){
     });
       var sponsorInfo = "";
 		  if(testI == 0  || i == 1){
-			  sponsorInfo = sponsors[i];
 			  $('#pickedNumber').removeClass('btn-primary');
 			  $('#pickedNumber').addClass('btn-danger');
 

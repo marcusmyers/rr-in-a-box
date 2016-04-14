@@ -27,7 +27,7 @@ $(document).ready(function(){
 			if(iCounter == 296 || iCounter == 297 || iCounter==298 || iCounter==299){
 				$('#pickedNumber').removeClass('btn-primary');
 				$('#pickedNumber').addClass('btn-success');
-				$('#sponsor').show().html(n[2]);
+			//	$('#sponsor').show().html(n[2]);
 			} else {
 				$('#pickedNumber').removeClass('btn-danger')
 				$('#pickedNumber').addClass('btn-primary');
