@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var socket = io.connect('http://localhost:3000');
-
+  var i=1
   totalTickets = localStorage.getItem('totalTickets');
   // Sets the total tickets left
 	$('.totalTickets').html("Tickets Left: "+totalTickets);
@@ -14,8 +14,6 @@ $(document).ready(function(){
 	}
 
 	$('#pullNumber').click(function(){
-		var testI = i % 20;
-
 		var intRand = localStorage[Math.round(300 * Math.random())];
 		if(intRand == null){
 			intRand = checkPicked(intRand);
@@ -23,43 +21,40 @@ $(document).ready(function(){
 		} else {
 			localStorage.removeItem(intRand);
 		}
+    socket.emit('message', intRand);
+    var ticketNo = intRand;
+    intRand = "";
 
-    // Get name on the ticket number
-		var ticketName = names[intRand];
+    var testI = i % 20;
+    var ticketName = "test";
+    function setTicketName() {
+      $('#pickedNumber').html(ticketNo+"<br><p>"+ticketName+"</p>");
+    }
+    socket.on('work', function(data){
+      ticketName = data;
+      setTicketName();
+    });
+      var sponsorInfo = "";
+		  if(testI == 0  || i == 1){
+			  sponsorInfo = sponsors[i];
+			  $('#pickedNumber').removeClass('btn-primary');
+			  $('#pickedNumber').addClass('btn-danger');
 
-		$('#pickedNumber').html(intRand+"<br><p>"+ticketName+"</p>");
-
-		db.transaction( function(tx) {
-		    tx.executeSql("INSERT INTO pickedTickets (ticket_id) VALUES (?)",
-		        [ intRand ],
-		        sqlWin,
-		        sqlFail
-		    );
-		});
-		var sponsorInfo = "";
-		if(testI == 0  || i == 1 || i == 217){
-			sponsorInfo = sponsors[i];
-			$('#pickedNumber').removeClass('btn-primary');
-			$('#pickedNumber').addClass('btn-danger');
-			$('.pickedNumbers').append('<li class="'+i+' alert alert-error">' + intRand +' - ' + ticketName + '</li>');
-			alert("PRIZE WINNER!!! Ticket No: "+intRand+' - ' + ticketName);
-		} else {
-			if(i== 296 || i == 297 || i == 298 || i==299){
-				sponsorInfo = sponsors[i];
-			} else {
-				sponsorInfo = "";
-				$('#pickedNumber').removeClass('btn-danger')
-				$('#pickedNumber').addClass('btn-primary');
-				$('.pickedNumbers').append('<li class="'+i+'">' + intRand +' - ' + ticketName + '</li>');
-			}
-		}
-		if(sponsorInfo != ""){
-			socket.emit('message', intRand+","+ticketName+","+sponsorInfo);
-		} else {
-			socket.emit('message', intRand+","+ticketName );
-	  }
-		var tickets = totalTickets - i;
-		$('.totalTickets').html("Tickets Left: "+ tickets);
-		i++;
+        alert("PRIZE WINNER!!!");
+		  } else {
+			  if(i== 296 || i == 297 || i == 298 || i==299){
+				  sponsorInfo = sponsors[i];
+			  } else {
+				  sponsorInfo = "";
+				  $('#pickedNumber').removeClass('btn-danger')
+				  $('#pickedNumber').addClass('btn-primary');
+			  }
+		  }
+      ticketName = "";
+      i++;
+      totalTickets = localStorage.getItem('totalTickets');
+		  var tickets = totalTickets-1;
+      localStorage.setItem('totalTickets', tickets);
+		  $('.totalTickets').html("Tickets Left: "+ tickets);
 	});
 });

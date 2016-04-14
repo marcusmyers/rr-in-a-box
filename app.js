@@ -3,6 +3,8 @@
  * Module dependencies.
  */
 
+require('dotenv').config()
+
 var express = require('express')
   , board = require('./routes/board')
   , bodyParser = require('body-parser')
@@ -12,23 +14,38 @@ var express = require('express')
   , monitor = require('./routes/monitor')
   , path = require('path')
   , routes = require('./routes')
-  , sqlite3 = require('sqlite3')
+  , sqlite3 = require('sqlite3').verbose()
   , user = require('./routes/user');
 
 var app = express();
 var fs = require('fs');
-var rrdb = __dirname + '/db_storage/rr.db';
-var pickeddb = __dirname + '/db_storage/picked.db';
-var stream = fs.createReadStream("RR-2016.csv");
- 
+var rrdb = __dirname + '/db_storage/'+ process.env.RR_YEAR + '/' + process.env.NAMES_DB;
+var pickeddb = __dirname + '/db_storage/' + process.env.RR_YEAR + '/' + process.env.PICKED_DB;
+var rexists = fs.existsSync(rrdb);
+var pexists = fs.existsSync(pickeddb);
+var db = new sqlite3.Database(rrdb);
+var pdb = new sqlite3.Database(pickeddb);
+var stream = fs.createReadStream(process.env.NAMES_FILE);
+
+db.serialize(function() {
+  if(!rexists) {
+    db.run("CREATE TABLE Tickets ('ticket_no' VARCHAR(3), 'first_name' VARCHAR(255), 'last_name' VARCHAR(255) DEFAULT '')", function(err){
+      if(err !== null) {
+        console.log(err);
+      } else {
+        console.log("SQL Table 'Tickets' initialized");
+      }
+    });
+  }
 csv
  .fromStream(stream)
    .on("data", function(data){
-          console.log(data);
+          db.run("INSERT INTO Tickets VALUES(?, ?, ?)",data);
            })
  .on("end", function(){
-        console.log("done");
+        console.log("done reading csv file.");
          });
+});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -72,11 +89,16 @@ io.sockets.on('connection', function (socket) {
   clients[socket.id] = socket;
 
   socket.on('message', function (data) {
+    io.sockets.emit('pickedcard', data);
     console.log('Receieved data from client:',data);
-    info.write(data+'\r\n');
-    var n = data.split(",");
-    io.sockets.emit('pickedcard', n[0]);
-    io.sockets.emit('monitor', data);
+    
+    db.get("SELECT first_name, last_name FROM Tickets WHERE ticket_no=?", data, function(err,row){
+      var name = row.first_name + " " + row.last_name;
+      var ndata = data + ","+name;
+      info.write(ndata+'\r\n');
+      io.sockets.emit('work', name);
+      io.sockets.emit('monitor', ndata);
+    });
   });
 
   //console.log('All connected clients: ', clients);
