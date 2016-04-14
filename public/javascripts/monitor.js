@@ -13,7 +13,7 @@ $(document).ready(function(){
 		var intRand = n[0];
 		var ticketName = n[1];
 
-		if(testI == 0 || iCounter == 1 || iCounter == 217){
+		if(testI == 0 || iCounter == 1){
 			if(iCounter == 300){
 				$('#pickedNumber').removeClass('btn-primary');
 				$('#pickedNumber').addClass('btn-success');
@@ -22,7 +22,7 @@ $(document).ready(function(){
 				$('#pickedNumber').addClass('btn-danger');
 			}
 			$('#pickedNumber').html(intRand+"<br><p>"+ticketName+"</p><p class='small'>Prize Winner</p>");
-			$('#sponsor').show().html(n[2]);
+		//	$('#sponsor').show().html(n[2]);
 		} else {
 			if(iCounter == 296 || iCounter == 297 || iCounter==298 || iCounter==299){
 				$('#pickedNumber').removeClass('btn-primary');
@@ -31,14 +31,12 @@ $(document).ready(function(){
 			} else {
 				$('#pickedNumber').removeClass('btn-danger')
 				$('#pickedNumber').addClass('btn-primary');
-				$('#sponsor').hide();
+			//	$('#sponsor').hide();
 			}
 			$('#pickedNumber').html(intRand+"<br><p>"+ticketName+"</p>");
 		}
     c = localStorage.getItem('totalTickets');
-		totalTickets = c-1;
-    localStorage.setItem('totalTickets', totalTickets);
-		$('.totalTickets').html("Tickets Left: "+ totalTickets);
+		$('.totalTickets').html("Tickets Left: "+ c);
 		iCounter++;
 	});
 

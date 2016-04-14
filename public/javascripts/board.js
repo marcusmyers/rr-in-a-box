@@ -8,7 +8,7 @@ $(document).ready(function(){
 		var item = "."+data;
 		var testI = iCounter % 20;
 
-		if(testI == 0 || iCounter == 1 || iCounter == 217){
+		if(testI == 0 || iCounter == 1){
 			if(iCounter == 300){
 				$(item).removeClass('loaded').addClass('finalWinners');
 			} else {
