@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var socket = io.connect('http://192.168.99.100:3000');
+	var socket = io.connect('http://'+host+':3000');
 	var iCounter = 1;
   if(localStorage.getItem('totalTickets') === undefined){
     localStorage.setItem('totalTickets', 300);

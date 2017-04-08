@@ -1,6 +1,14 @@
 #!/bin/bash
 
-cp env.example ./.env
+if [ ! -f ./.env ]; then
+  cp env.example ./.env
+fi
 
-npm install
+# npm install
+docker build -t marcusmyers/reverseraffle .
 
+docker run -d --name=rr -p 3000:3000 marcusmyers/reverseraffle
+
+open -a Google\ Chrome 'http://localhost:3000'
+open -a Google\ Chrome 'http://localhost:3000/board'
+open -a Google\ Chrome 'http://localhost:3000/monitor'

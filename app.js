@@ -47,6 +47,18 @@ csv
          });
 });
 
+pdb.serialize(function() {
+  if(!pexists){
+    pdb.run("CREATE TABLE Picked ('ticket_no' VARCHAR(3))", function(err){
+      if (err !== null) {
+        console.log(err);
+      } else {
+        console.log("SQL Table 'Picked' initialized");
+      }
+    });
+  }
+});
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -75,6 +87,16 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var io = require('socket.io').listen(server);
 var clients = {};
 
+fs.writeFile('public/javascripts/vars.js', '// Application variables\r\n', function (err) {
+  if (err) return console.log(err);
+});
+
+var appvars = fs.createWriteStream('public/javascripts/vars.js', {'flags': 'a'});
+appvars.write("\r\n");
+appvars.write("var boostertickets = new Array("+process.env.BOOSTER_TICKETS+");\r\n");
+appvars.write("var rafflesize = " + process.env.RAFFLE_SIZE + ";\r\n");
+appvars.write("var host = '" + process.env.HOST + "';\r\n");
+
 // Create csv file to write to and set first line to Ticket Number
 fs.writeFile('pickedtickets.csv', 'Ticket Number\r\n', function (err) {
   if (err) return console.log(err);
@@ -91,7 +113,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('message', function (data) {
     io.sockets.emit('pickedcard', data);
     console.log('Receieved data from client:',data);
-    
+
     db.get("SELECT first_name, last_name FROM Tickets WHERE ticket_no=?", data, function(err,row){
       var name = row.first_name + " " + row.last_name;
       var ndata = data + ","+name;
@@ -99,6 +121,8 @@ io.sockets.on('connection', function (socket) {
       io.sockets.emit('work', name);
       io.sockets.emit('monitor', ndata);
     });
+
+    pdb.run("INSERT INTO Picked VALUES(?)", data);
   });
 
   //console.log('All connected clients: ', clients);

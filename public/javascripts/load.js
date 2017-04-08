@@ -1,12 +1,11 @@
-var aboosterTicketsHold = new Array(13,109,255);
-localStorage.setItem('totalTickets', 300);
-for(i=1;i<=300;i++){
-	localStorage.setItem(i, i); //saves to the database, "key", "value"
+localStorage.setItem('totalTickets', rafflesize);
+for(i=1;i<=rafflesize;i++){
+  localStorage.setItem(i, i); //saves to the database, "key", "value"
 }
 
-localStorage.removeItem(13);
-localStorage.removeItem(109);
-localStorage.removeItem(255);
+for(i=0; i < boostertickets.length; i++) {
+  localStorage.removeItem(boostertickets[i]);
+}
 
 function addTicket(data){
 	localStorage.setItem(data, data);
