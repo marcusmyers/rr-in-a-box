@@ -1,4 +1,4 @@
-FROM node:5.10
+FROM node
 MAINTAINER Mark Myers <marcusmyers@gmail.com>
 
 ADD . /app
